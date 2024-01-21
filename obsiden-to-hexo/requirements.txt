@@ -1,0 +1,8 @@
+certifi==2023.11.17
+charset-normalizer==3.3.2
+idna==3.6
+importlib-metadata==7.0.1
+PyYAML
+requests
+urllib3==2.1.0
+zipp==3.17.0
