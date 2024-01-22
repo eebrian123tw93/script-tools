@@ -80,7 +80,8 @@ def split_meta_and_content(content):
     return metadata, markdown_content
 
 
-def handle_meta(metadata):
+def handle_meta(metadata, old_metadata):
+    metadata.update(old_metadata)
     created = metadata['created']
     unused_metas = ['aliases', 'Last modified', 'created']
     for unused_meta in unused_metas:
@@ -101,6 +102,7 @@ def handle_meta(metadata):
 obsiden_path = '/Users/brian/Documents/MyNotes'
 hexo_path = '/Users/brian/Documents/eebrian123tw93.github.io/source/'
 note_name = 'SparkFun Thing Plus Matter - MGM240P'
+note_path = f"{hexo_path}/_posts/{note_name}.md"
 note_name_path = find_path(target=f'{note_name}.md')
 
 if not os.path.exists('images'):
@@ -137,14 +139,22 @@ for match in matches:
         with open(image_path, 'wb') as handler:
             handler.write(img_data)
 
+old_metadata = {}
+note_path_exist = os.path.exists(note_path)
+if note_path_exist:
+    with open(note_path, 'r') as f:
+        old_markdown = f.read()
+        old_metadata, _ = split_meta_and_content(content=old_markdown)
+
+
 new_content = re.sub(obsiden_image_pattern, convert_image_format, content)
 new_content = re.sub(remote_image_pattern, convert_remote_image_format, new_content)
 metadata, markdown_content = split_meta_and_content(content=new_content)
-metadata_str = handle_meta(metadata=metadata)
+metadata_str = handle_meta(metadata=metadata, old_metadata=old_metadata)
 new_content = f'---\n{metadata_str}---{markdown_content}'
 pattern = re.compile(r'---sensitive---.*?---end_sensitive---', re.DOTALL)
 
 new_content = re.sub(pattern, '', new_content)
-fo = open(f"{hexo_path}/_posts/{note_name}.md", "w")
+fo = open(note_path, "w")
 fo.write(new_content)
 fo.close()
