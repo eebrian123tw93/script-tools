@@ -81,7 +81,8 @@ def split_meta_and_content(content):
 
 
 def handle_meta(metadata, old_metadata):
-    metadata.update(old_metadata)
+    old_metadata.update(metadata)
+    metadata = old_metadata
     created = metadata['created']
     unused_metas = ['aliases', 'Last modified', 'created']
     for unused_meta in unused_metas:
@@ -90,7 +91,8 @@ def handle_meta(metadata, old_metadata):
 
     metadata['date'] = format_time(input_date_string=created)
     metadata['updated'] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
-    metadata['categories'] = ""
+    if 'categories' not in metadata.keys():
+        metadata['categories'] = ""
     metadata['description'] = ""
 
     metadata_str = yaml.dump(metadata, Dumper=IndentDumper, default_style=None, default_flow_style=False,
