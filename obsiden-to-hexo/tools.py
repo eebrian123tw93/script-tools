@@ -170,7 +170,8 @@ class Convert:
             if char1 != char2:
                 difference += char1
 
-        print("差異的部分:", difference)
+        if len(difference) != 0:
+            print("差異的部分:", difference)
 
         if old_markdown_content != markdown_content:
 
@@ -180,8 +181,6 @@ class Convert:
             fo = open(note_path, "w")
             fo.write(new_content)
             fo.close()
-        else:
-            print(f'{self.note_name} not changes')
 
 
 
