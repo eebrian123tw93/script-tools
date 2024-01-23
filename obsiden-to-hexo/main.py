@@ -85,7 +85,7 @@ def split_meta_and_content(content):
 
 
 def handle_meta(metadata, old_metadata):
-    if 'categories' in metadata.keys():
+    if 'categories' in old_metadata.keys() and 'categories' in metadata.keys():
         del metadata['categories']
     metadata.update(old_metadata)
     created = metadata['created']
