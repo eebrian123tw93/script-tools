@@ -85,8 +85,9 @@ def split_meta_and_content(content):
 
 
 def handle_meta(metadata, old_metadata):
-    old_metadata.update(metadata)
-    metadata = old_metadata
+    if 'categories' in metadata.keys():
+        del metadata['categories']
+    metadata.update(old_metadata)
     created = metadata['created']
     unused_metas = ['aliases', 'Last modified', 'created']
     for unused_meta in unused_metas:
