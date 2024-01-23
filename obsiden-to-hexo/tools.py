@@ -87,7 +87,10 @@ class Convert:
         return metadata, markdown_content
 
     def handle_meta(self,  metadata, old_metadata):
-        if 'categories' in old_metadata.keys() and 'categories' in metadata.keys():
+        if 'categories' in metadata.keys() and not isinstance(metadata['categories'], list):
+            del old_metadata['categories']
+
+        if 'categories' in old_metadata.keys() and 'categories' in metadata.keys() and isinstance(metadata['categories'], list):
             del metadata['categories']
         metadata.update(old_metadata)
         created = metadata['created']
