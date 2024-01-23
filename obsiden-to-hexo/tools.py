@@ -49,7 +49,7 @@ class Convert:
 
     def convert_internal_link(self, match_obj):
         content = match_obj.group(1)
-        result = '{%' + f' post_link  {content} ' + '%}'
+        result = '{%' + f' post_link  \"{content}\" ' + '%}'
         return result
 
     def format_time(self, input_date_string):
