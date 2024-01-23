@@ -43,6 +43,10 @@ def convert_remote_image_format(match_obj):
     new_name = f'{digit_str}{splitext_image_name[1]}'
     return f'![](/images/{new_name})'
 
+def convert_internal_link(match_obj):
+    content = match_obj.group(1)
+    result = '{%' + f' post_link  {content} ' + '%}'
+    return result
 
 def format_time(input_date_string):
     # 將中文星期轉換為英文
@@ -101,10 +105,12 @@ def handle_meta(metadata, old_metadata):
     return metadata_str
 
 
-obsiden_path = '/Users/brian/Documents/MyNotes'
-hexo_path = '/Users/brian/Documents/eebrian123tw93.github.io/source/'
-note_name = 'SparkFun Thing Plus Matter - MGM240P'
+
+obsiden_path = '/media/new_drive/MyNotes'
+hexo_path = '/media/new_drive/eebrian123tw93.github.io/source/'
+note_name = '使用WebCodecs API對H264解碼'
 note_path = f"{hexo_path}/_posts/{note_name}.md"
+
 note_name_path = find_path(target=f'{note_name}.md')
 
 if not os.path.exists('images'):
@@ -117,6 +123,7 @@ f = open(note_name_path, 'r')
 content = f.read()
 f.close()
 
+internal_link_pattern = r'\[\[(.*)\]\]'
 obsiden_image_pattern = r'!\[\[([^|\]]+)(?:\|\d+)?\]\]'
 remote_image_pattern = r'\!\[.*\]\((https://.*?)\)'
 results = re.findall(obsiden_image_pattern, content)
@@ -151,6 +158,11 @@ if note_path_exist:
 
 new_content = re.sub(obsiden_image_pattern, convert_image_format, content)
 new_content = re.sub(remote_image_pattern, convert_remote_image_format, new_content)
+
+new_content = re.sub(internal_link_pattern, convert_internal_link, new_content)
+
+
+
 metadata, markdown_content = split_meta_and_content(content=new_content)
 metadata_str = handle_meta(metadata=metadata, old_metadata=old_metadata)
 new_content = f'---\n{metadata_str}---{markdown_content}'
