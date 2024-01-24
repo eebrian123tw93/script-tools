@@ -92,6 +92,7 @@ class Convert:
             del metadata['categories']
 
         old_metadata.update(metadata)
+        metadata = old_metadata
         created = metadata['created']
         unused_metas = ['aliases', 'Last modified', 'created']
         for unused_meta in unused_metas:
