@@ -168,6 +168,12 @@ class Convert:
 
         markdown_content = re.sub(pattern, '', markdown_content)
 
+        if len(markdown_content) > 200 :
+            new_line_index = markdown_content.find("\n", 200, len(markdown_content) -1)
+            if new_line_index >= 0:
+                more_index = new_line_index + 1
+                markdown_content = f"{markdown_content[:more_index]} <!-- more -->\n {markdown_content[more_index:]}"
+
         difference = ""
         for char1, char2 in zip(old_markdown_content, markdown_content):
             if char1 != char2:
@@ -181,6 +187,7 @@ class Convert:
             metadata_str = self.handle_meta(metadata=metadata, old_metadata=old_metadata)
             new_content = f'---\n{metadata_str}---{markdown_content}'
 
+            
             fo = open(note_path, "w")
             fo.write(new_content)
             fo.close()
