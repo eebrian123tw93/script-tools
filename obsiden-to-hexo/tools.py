@@ -87,12 +87,11 @@ class Convert:
         return metadata, markdown_content
 
     def handle_meta(self,  metadata, old_metadata):
-        if 'categories' in metadata.keys() and not isinstance(metadata['categories'], list):
-            del old_metadata['categories']
 
-        if 'categories' in old_metadata.keys() and 'categories' in metadata.keys() and isinstance(metadata['categories'], list):
+        if 'categories' in metadata.keys() and not isinstance(metadata['categories'], list):
             del metadata['categories']
-        metadata.update(old_metadata)
+
+        old_metadata.update(metadata)
         created = metadata['created']
         unused_metas = ['aliases', 'Last modified', 'created']
         for unused_meta in unused_metas:
@@ -102,13 +101,21 @@ class Convert:
         metadata['date'] = self.format_time(input_date_string=created)
         metadata['updated'] = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
         if 'categories' not in metadata.keys():
-            metadata['categories'] = ""
+            metadata['categories'] = []
         metadata['description'] = ""
 
         metadata_str = yaml.dump(metadata, Dumper=IndentDumper, default_style=None, default_flow_style=False,
                                  sort_keys=False,
                                  allow_unicode=True, indent=2, )
         return metadata_str
+    
+
+    def metadata_change(self, metadata, old_metadata):
+        tags = [] if 'tags' not in metadata.keys() or not isinstance(metadata['tags'], list) else metadata['tags']
+        old_tags = [] if 'tags' not in old_metadata.keys() or not isinstance(old_metadata['tags'], list) else old_metadata['tags']
+        tags.sort()
+        old_tags.sort()
+        return tags != old_tags
 
     def start(self):
         note_path = f"{self.hexo_path}/_posts/{self.note_name}.md"
@@ -181,8 +188,8 @@ class Convert:
 
         if len(difference) != 0:
             print("差異的部分:", difference)
-
-        if old_markdown_content != markdown_content:
+        metadata_change = self.metadata_change(metadata=metadata , old_metadata=old_metadata)
+        if old_markdown_content != markdown_content or metadata_change:
 
             metadata_str = self.handle_meta(metadata=metadata, old_metadata=old_metadata)
             new_content = f'---\n{metadata_str}---{markdown_content}'
