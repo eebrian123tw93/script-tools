@@ -117,6 +117,21 @@ class Convert:
         tags.sort()
         old_tags.sort()
         return tags != old_tags
+    
+    def add_read_more(self, content):
+        for index in range(200, len(content), 100):
+            if len(content) > index :
+                new_line_index = content.find("\n", index, len(content) -1)
+                if new_line_index >= 0:
+                    more_index = new_line_index + 1
+                    front_content = content[:more_index]
+                    back_content = content[more_index:]
+                    if len(front_content.split('```')) % 2 == 0:
+                        continue
+                    content = f"{front_content} <!-- more -->\n {back_content}"
+            return content
+        return content
+
 
     def start(self):
         note_path = f"{self.hexo_path}/_posts/{self.note_name}.md"
@@ -176,11 +191,7 @@ class Convert:
 
         markdown_content = re.sub(pattern, '', markdown_content)
 
-        if len(markdown_content) > 200 :
-            new_line_index = markdown_content.find("\n", 200, len(markdown_content) -1)
-            if new_line_index >= 0:
-                more_index = new_line_index + 1
-                markdown_content = f"{markdown_content[:more_index]} <!-- more -->\n {markdown_content[more_index:]}"
+        markdown_content = self.add_read_more(content=markdown_content)
 
         difference = ""
         for char1, char2 in zip(old_markdown_content, markdown_content):
