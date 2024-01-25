@@ -116,7 +116,13 @@ class Convert:
         old_tags = [] if 'tags' not in old_metadata.keys() or not isinstance(old_metadata['tags'], list) else old_metadata['tags']
         tags.sort()
         old_tags.sort()
-        return tags != old_tags
+
+        categories = [] if 'categories' not in metadata.keys() or not isinstance(metadata['categories'], list) else metadata['categories']
+        old_categories = [] if 'categories' not in old_metadata.keys() or not isinstance(old_metadata['categories'], list) else old_metadata['categories']
+        categories.sort()
+        old_categories.sort()
+
+        return tags != old_tags or categories!= old_categories
     
     def add_read_more(self, content):
         for index in range(200, len(content), 100):
