@@ -149,7 +149,7 @@ class Convert:
         if note_name_path is None:
             exit(0)
 
-        f = open(note_name_path, 'r')
+        f = open(note_name_path, 'r' ,encoding="utf-8")
         content = f.read()
         f.close()
 
@@ -175,14 +175,14 @@ class Convert:
             if not os.path.exists(image_path):
                 img_data = requests.get(match).content
 
-                with open(image_path, 'wb') as handler:
+                with open(image_path, 'wb', encoding="utf-8") as handler:
                     handler.write(img_data)
 
         old_metadata = {}
         old_markdown_content = ''
         note_path_exist = os.path.exists(note_path)
         if note_path_exist:
-            with open(note_path, 'r') as f:
+            with open(note_path, 'r', encoding="utf-8") as f:
                 old_markdown = f.read()
                 old_metadata, old_markdown_content = self.split_meta_and_content(content=old_markdown)
 
@@ -213,7 +213,7 @@ class Convert:
             new_content = f'---\n{metadata_str}---{markdown_content}'
 
             
-            fo = open(note_path, "w")
+            fo = open(note_path, "w", encoding="utf-8")
             fo.write(new_content)
             fo.close()
 
