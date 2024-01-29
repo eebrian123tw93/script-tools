@@ -20,5 +20,6 @@ note_names.append('實作 Nginx 負載平衡 load balance')
 note_names.append('20240123小日常')
 note_names.append('python進度條tqdm')
 note_names.append('使用WebCodecs API對H265解碼')
+note_names.append('Python mt5 on linux')
 for note_name in note_names:
     Convert(obsiden_path=obsiden_path, hexo_path=hexo_path, note_name=note_name).start()
