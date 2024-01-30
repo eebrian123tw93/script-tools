@@ -153,7 +153,7 @@ class Convert:
         content = f.read()
         f.close()
 
-        internal_link_pattern = r'\[\[(.*)\]\]'
+        internal_link_pattern = r'\[\[(.*?)\]\]'
         obsiden_image_pattern = r'!\[\[([^|\]]+)(?:\|\d+)?\]\]'
         remote_image_pattern = r'\!\[.*\]\((https://.*?)\)'
         results = re.findall(obsiden_image_pattern, content)
