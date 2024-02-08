@@ -162,3 +162,7 @@ cython_debug/
 obsiden-to-hexo/.DS_Store
 
 .DS_Store
+
+*.md
+
+obsiden-to-hexo/.idea/
