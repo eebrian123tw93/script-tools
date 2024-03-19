@@ -22,5 +22,6 @@ note_names.append('python進度條tqdm')
 note_names.append('使用WebCodecs API對H265解碼')
 note_names.append('Python mt5 on linux')
 note_names.append('Python mt5 on macOS(M系列)')
+note_names.append('share_file_descriptor(shrare fd)')
 for note_name in note_names:
     Convert(obsiden_path=obsiden_path, hexo_path=hexo_path, note_name=note_name).start()
