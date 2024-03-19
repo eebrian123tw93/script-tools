@@ -1,8 +1,8 @@
 
 from tools import Convert
 
-obsiden_path = '/Users/brian/Documents/MyNotes'
-hexo_path = '/Users/brian/Documents/eebrian123tw93.github.io/source/'
+obsiden_path = '/media/new_drive/MyNotes'
+hexo_path = '/media/new_drive/eebrian123tw93.github.io/source/'
 
 
 note_names = []
@@ -23,5 +23,6 @@ note_names.append('使用WebCodecs API對H265解碼')
 note_names.append('Python mt5 on linux')
 note_names.append('Python mt5 on macOS(M系列)')
 note_names.append('share_file_descriptor(shrare fd)')
+note_names.append('20240319小日常');
 for note_name in note_names:
     Convert(obsiden_path=obsiden_path, hexo_path=hexo_path, note_name=note_name).start()
