@@ -32,6 +32,8 @@ note_names.append('20240701小日常 1')
 note_names.append('20240701小日常 2')
 note_names.append('20240701小日常 3')
 
+note_names.append('sonarqube')
+
 
 for note_name in note_names:
     Convert(obsiden_path=obsiden_path, hexo_path=hexo_path, note_name=note_name).start()
