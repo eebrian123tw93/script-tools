@@ -1,5 +1,10 @@
 
-from tools import Convert
+from concurrent.futures import ProcessPoolExecutor
+
+
+def convert_note_task(note_name, obsiden_path, hexo_path):
+    from tools import Convert
+    Convert(obsiden_path=obsiden_path, hexo_path=hexo_path, note_name=note_name).start()
 
 obsiden_path = '/media/new_drive/MyNotes'
 hexo_path = '/media/new_drive/eebrian123tw93.github.io/source/'
@@ -53,7 +58,12 @@ note_names.append('編譯程式碼webrtc')
 note_names.append('Webrtc視訊流')
 
 
+with ProcessPoolExecutor() as executor:
+    futures = [
+        executor.submit(convert_note_task, note_name, obsiden_path, hexo_path)
+        for note_name in note_names
+    ]
 
-
-for note_name in note_names:
-    Convert(obsiden_path=obsiden_path, hexo_path=hexo_path, note_name=note_name).start()
+    # 等待所有任务完成并处理可能的异常
+    for future in futures:
+        future.result()
