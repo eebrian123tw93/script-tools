@@ -49,7 +49,21 @@ class Convert:
 
     def convert_internal_link(self, match_obj):
         content = match_obj.group(1)
+        target = ''
+        if content.startswith('#'):
+            target = content.split('#')[-1]
+            return f'[{target}](#{target.replace(" ", "-")})'
+        elif '#' in content:
+            print(content)
+            content_split = content.split('#')
+            content = content_split[0]
+            target = content_split[-1]
+        
         result = '{%' + f' post_link  \"{content}\" ' + '%}'
+
+        if len(target) != 0:
+            result += f'#{target.replace(" ", "-")}'
+
         return result
 
     def format_time(self, input_date_string):
@@ -174,7 +188,7 @@ class Convert:
             image_path = f'{self.hexo_path}/images/{new_name}'
             if not os.path.exists(image_path):
                 img_data = requests.get(match).content
-
+                print(image_path)
                 with open(image_path, 'wb', encoding="utf-8") as handler:
                     handler.write(img_data)
 
