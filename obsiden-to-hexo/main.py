@@ -61,6 +61,7 @@ note_names.append('Webrtc視訊流')
 
 note_names.append('20250214小日常-WebSocket IDR Frame delay')
 note_names.append('Nessus scan issue- ICMP Timestamp Request Remote Date Disclosure')
+note_names.append('lru_cache 不要亂用')
 
 with ProcessPoolExecutor() as executor:
     futures = [
