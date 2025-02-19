@@ -118,6 +118,14 @@ class Convert:
         if 'categories' not in metadata.keys():
             metadata['categories'] = []
         metadata['description'] = ""
+        
+        tags = [] if 'tags' not in metadata.keys() or not isinstance(metadata['tags'], list) else metadata['tags']
+        tags.sort()
+        keywords = [tag for tag in tags]
+
+        metadata['tags'] = tags
+        metadata['keywords'] = keywords
+
 
         metadata_str = yaml.dump(metadata, Dumper=IndentDumper, default_style=None, default_flow_style=False,
                                  sort_keys=False,
@@ -136,7 +144,7 @@ class Convert:
         categories.sort()
         old_categories.sort()
 
-        return tags != old_tags or categories!= old_categories
+        return tags != old_tags or categories!= old_categories or keywords != old_keywords
     
     def add_read_more(self, content):
         for index in range(200, len(content), 100):
@@ -222,7 +230,6 @@ class Convert:
             print("差異的部分:", difference)
         metadata_change = self.metadata_change(metadata=metadata , old_metadata=old_metadata)
         if old_markdown_content != markdown_content or metadata_change:
-
             metadata_str = self.handle_meta(metadata=metadata, old_metadata=old_metadata)
             new_content = f'---\n{metadata_str}---{markdown_content}'
 
