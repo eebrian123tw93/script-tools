@@ -64,6 +64,8 @@ note_names.append('Nessus scan issue- ICMP Timestamp Request Remote Date Disclos
 note_names.append('lru_cache 不要亂用')
 
 note_names.append('git flow')
+note_names.append('git常用指令')
+
 
 with ProcessPoolExecutor() as executor:
     futures = [
