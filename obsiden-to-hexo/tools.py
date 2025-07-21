@@ -144,7 +144,7 @@ class Convert:
         categories.sort()
         old_categories.sort()
 
-        return tags != old_tags or categories!= old_categories or keywords != old_keywords
+        return tags != old_tags or categories!= old_categories
     
     def add_read_more(self, content):
         for index in range(200, len(content), 100):

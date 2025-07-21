@@ -63,6 +63,8 @@ note_names.append('20250214小日常-WebSocket IDR Frame delay')
 note_names.append('Nessus scan issue- ICMP Timestamp Request Remote Date Disclosure')
 note_names.append('lru_cache 不要亂用')
 
+note_names.append('git flow')
+
 with ProcessPoolExecutor() as executor:
     futures = [
         executor.submit(convert_note_task, note_name, obsiden_path, hexo_path)
